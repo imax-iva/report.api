@@ -90,6 +90,10 @@ defmodule Report.Web.StatsView do
     stats
   end
 
+  def render("employees.json", stats) do
+    stats
+  end
+
   def render("legal_entity.json", %{legal_entity: legal_entity}) do
     legal_entity
     |> Map.take(@legal_entities_fields)

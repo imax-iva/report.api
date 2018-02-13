@@ -38,4 +38,10 @@ defmodule Report.Web.StatsController do
       render(conn, "divisions.json", divisions: paging.entries, paging: paging)
     end
   end
+
+  def employees(conn, _) do
+      with {:ok, main_stats} <- MainStats.get_employees_stats() do
+      render(conn, "employees.json", stats: main_stats)
+    end
+  end
 end

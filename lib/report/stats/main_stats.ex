@@ -109,6 +109,13 @@ defmodule Report.Stats.MainStats do
     end
   end
 
+  def get_employees_stats do
+    with skeleton <- regions_stats_tiny_skeleton(Repo.all(Region)),
+         skeleton <- add_to_regions_skeleton(employees_by_regions(Employee), ["stats", "employees"], skeleton) do
+      {:ok, Map.values(skeleton)}
+    end
+  end
+
   defp histogram_stats_by_periods(%HistogramStatsRequest{} = histogram_stats_request, skeleton) do
     %{from_date: from_date, to_date: to_date, interval: interval} = histogram_stats_request
 
@@ -256,6 +263,18 @@ defmodule Report.Stats.MainStats do
     end)
   end
 
+  defp regions_stats_tiny_skeleton(regions) do
+    Enum.into(regions, %{}, fn region ->
+      {region.name,
+       %{
+         "region" => region,
+         "stats" => %{
+           "employees" => 0
+         }
+       }}
+    end)
+  end
+
   defp msps_by_regions do
     LegalEntity
     |> params_query(msp_params())
@@ -290,6 +309,11 @@ defmodule Report.Stats.MainStats do
     |> params_query(%{"employee_type" => "PHARMACIST"})
     |> employees_by_regions()
   end
+
+  #def employees_by_regions do
+  #  Employee
+  #  |> employees_by_regions()
+  #end
 
   defp employees_by_regions(query) do
     query
