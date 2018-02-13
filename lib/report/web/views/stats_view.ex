@@ -90,7 +90,7 @@ defmodule Report.Web.StatsView do
     stats
   end
 
-  def render("employees.json", stats) do
+  def render("area_employees.json", %{stats: stats}) do
     stats
   end
 

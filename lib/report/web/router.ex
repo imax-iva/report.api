@@ -36,7 +36,7 @@ defmodule Report.Web.Router do
         get("/division/:id", StatsController, :division)
         get("/regions", StatsController, :regions)
         get("/histogram", StatsController, :histogram)
-        get("/employees", StatsController, :employees)
+        get("/area_employees", StatsController, :area_employees)
       end
 
       scope "/log" do

@@ -109,8 +109,8 @@ defmodule Report.Stats.MainStats do
     end
   end
 
-  def get_employees_stats do
-    with skeleton <- regions_stats_tiny_skeleton(Repo.all(Region)),
+  def get_employees_by_region_stats do
+    with skeleton <- regions_stats_skeleton(Repo.all(Region)),
          skeleton <- add_to_regions_skeleton(employees_by_regions(Employee), ["stats", "employees"], skeleton) do
       {:ok, Map.values(skeleton)}
     end
@@ -257,19 +257,8 @@ defmodule Report.Stats.MainStats do
            "msps" => 0,
            "pharmacies" => 0,
            "pharmacists" => 0,
-           "medication_requests" => 0
-         }
-       }}
-    end)
-  end
-
-  defp regions_stats_tiny_skeleton(regions) do
-    Enum.into(regions, %{}, fn region ->
-      {region.name,
-       %{
-         "region" => region,
-         "stats" => %{
-           "employees" => 0
+           "medication_requests" => 0,
+           "employees" => 0,
          }
        }}
     end)
@@ -309,11 +298,6 @@ defmodule Report.Stats.MainStats do
     |> params_query(%{"employee_type" => "PHARMACIST"})
     |> employees_by_regions()
   end
-
-  #def employees_by_regions do
-  #  Employee
-  #  |> employees_by_regions()
-  #end
 
   defp employees_by_regions(query) do
     query

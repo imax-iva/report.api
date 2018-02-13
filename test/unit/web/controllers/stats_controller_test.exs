@@ -50,11 +50,12 @@ defmodule Report.Web.StatsControllerTest do
 
   test "get employees by regions stats", %{conn: conn} do
     schema =
-      "test/data/stats/employees_by_regions_stats_response.json"
+      #"test/data/stats/employees_by_regions_stats_response.json"
+      "test/data/stats/regions_stats_response.json"
       |> File.read!()
       |> Poison.decode!()
 
-    conn = get(conn, stats_path(conn, :employees))
+    conn = get(conn, stats_path(conn, :area_employees))
     :ok = Validator.validate(schema, json_response(conn, 200))
   end
 
