@@ -50,7 +50,6 @@ defmodule Report.Web.StatsControllerTest do
 
   test "get employees by regions stats", %{conn: conn} do
     schema =
-      #"test/data/stats/employees_by_regions_stats_response.json"
       "test/data/stats/regions_stats_response.json"
       |> File.read!()
       |> Poison.decode!()
