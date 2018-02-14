@@ -3,15 +3,57 @@
   "type": "object",
   "properties": {
     "data": {
-     "type": "object",
-      "properties": {
-        "employees": {
-          "type": "number"
+      "type": "array",
+      "items": {
+        "properties": {
+          "from_date": {
+            "type": "string"
+          },
+          "to_date": {
+            "type": "string"
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "period": {
+                  "type": "object",
+                  "properties": {
+                    "employees": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "employees"
+                  ]
+                },
+                "total": {
+                  "type": "object",
+                  "properties": {
+                    "employees": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "employees"
+                  ]
+                }
+              }
+            }
+          }
         }
-      },
-      "required": [
-        "employees"
-      ]
+      }
     }
   }
 }

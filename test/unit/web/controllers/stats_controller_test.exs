@@ -50,11 +50,20 @@ defmodule Report.Web.StatsControllerTest do
 
   test "get employees by regions stats", %{conn: conn} do
     schema =
-      "test/data/stats/regions_stats_response.json"
+      "test/data/stats/employees_by_regions_stats_response.json"
       |> File.read!()
       |> Poison.decode!()
 
     conn = get(conn, stats_path(conn, :area_employees))
+    :ok = Validator.validate(schema, json_response(conn, 200))
+
+    le = insert(:legal_entity)
+    division = insert(:division, %{legal_entity_id: le.id})
+    IO.inspect division
+    employee = insert(:employee, %{division_id: division.id})
+    IO.inspect employee
+    conn = get(conn, stats_path(conn, :area_employees))
+    IO.inspect json_response(conn, 200)
     :ok = Validator.validate(schema, json_response(conn, 200))
   end
 
@@ -507,3 +516,4 @@ defmodule Report.Web.StatsControllerTest do
     insert(:division, location: %Geo.Point{coordinates: {30.1233, 50.32423}}, legal_entity: legal_entity)
   end
 end
+

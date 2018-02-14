@@ -50,9 +50,10 @@ defmodule Report.Web.StatsView do
   end
 
   def render("region_stat.json", %{stats: %{"region" => region, "stats" => stats}}) do
+    keys = Map.keys(stats) -- ["employees"]
     %{
       "region" => render_one(region, __MODULE__, "region.json"),
-      "stats" => render_one(stats, __MODULE__, "index.json")
+      "stats" => render_one(Map.take(stats, keys), __MODULE__, "index.json")
     }
   end
 
@@ -90,8 +91,15 @@ defmodule Report.Web.StatsView do
     stats
   end
 
-  def render("area_employees.json", %{stats: stats}) do
-    stats
+  def render("area_employees.json", %{stats: regions}) when is_list(regions) do
+    render_many(regions, __MODULE__, "area_employees_stat.json")
+  end
+
+  def render("area_employees_stat.json", %{stats: %{"region" => region, "stats" => stats}}) do
+    %{
+      "region" => render_one(region, __MODULE__, "region.json"),
+      "stats" => render_one(Map.take(stats, ["employees"]), __MODULE__, "index.json")
+    }
   end
 
   def render("legal_entity.json", %{legal_entity: legal_entity}) do
