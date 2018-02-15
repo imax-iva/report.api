@@ -40,7 +40,7 @@ defmodule Report.Web.StatsController do
   end
 
   def area_employees(conn, _) do
-      with {:ok, main_stats} <- MainStats.get_employees_by_region_stats() do
+    with {:ok, main_stats} <- MainStats.get_employees_by_region_stats() do
       render(conn, "area_employees.json", stats: main_stats)
     end
   end

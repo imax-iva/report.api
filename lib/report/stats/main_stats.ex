@@ -258,7 +258,7 @@ defmodule Report.Stats.MainStats do
            "pharmacies" => 0,
            "pharmacists" => 0,
            "medication_requests" => 0,
-           "employees" => 0,
+           "employees" => 0
          }
        }}
     end)
