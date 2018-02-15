@@ -34,6 +34,17 @@ defmodule Report.Web.StatsView do
     second_name
   )a
 
+  @regions_stat_fields ~w(
+    declarations
+    doctors
+    msps
+    pharmacies
+    pharmacists
+    medication_requests
+  )
+
+  @area_employees_stat_fields ~w(employees)
+
   def render("index.json", %{stats: stats}) do
     stats
   end
@@ -50,10 +61,9 @@ defmodule Report.Web.StatsView do
   end
 
   def render("region_stat.json", %{stats: %{"region" => region, "stats" => stats}}) do
-    keys = Map.keys(stats) -- ["employees"]
     %{
       "region" => render_one(region, __MODULE__, "region.json"),
-      "stats" => render_one(Map.take(stats, keys), __MODULE__, "index.json")
+      "stats" => render_one(Map.take(stats, @regions_stat_fields), __MODULE__, "index.json")
     }
   end
 
@@ -98,7 +108,7 @@ defmodule Report.Web.StatsView do
   def render("area_employees_stat.json", %{stats: %{"region" => region, "stats" => stats}}) do
     %{
       "region" => render_one(region, __MODULE__, "region.json"),
-      "stats" => render_one(Map.take(stats, ["employees"]), __MODULE__, "index.json")
+      "stats" => render_one(Map.take(stats, @area_employees_stat_fields), __MODULE__, "index.json")
     }
   end
 

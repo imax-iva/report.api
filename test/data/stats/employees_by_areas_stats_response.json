@@ -34,6 +34,7 @@
                       "type": "number"
                     }
                   },
+                  "additionalProperties": false,
                   "required": [
                     "employees"
                   ]
@@ -45,6 +46,7 @@
                       "type": "number"
                     }
                   },
+                  "additionalProperties": false,
                   "required": [
                     "employees"
                   ]

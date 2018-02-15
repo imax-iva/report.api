@@ -48,9 +48,9 @@ defmodule Report.Web.StatsControllerTest do
     :ok = Validator.validate(schema, json_response(conn, 200))
   end
 
-  test "get employees by regions stats", %{conn: conn} do
+  test "get employees by area stats", %{conn: conn} do
     schema =
-      "test/data/stats/employees_by_regions_stats_response.json"
+      "test/data/stats/employees_by_areas_stats_response.json"
       |> File.read!()
       |> Poison.decode!()
 
@@ -59,12 +59,13 @@ defmodule Report.Web.StatsControllerTest do
 
     le = insert(:legal_entity)
     division = insert(:division, %{legal_entity_id: le.id})
-    IO.inspect division
-    employee = insert(:employee, %{division_id: division.id})
-    IO.inspect employee
+    for _ <- 0..1, do: insert(:employee, %{division: division, legal_entity: le})
+    insert(:region)
     conn = get(conn, stats_path(conn, :area_employees))
-    IO.inspect json_response(conn, 200)
     :ok = Validator.validate(schema, json_response(conn, 200))
+
+    {:ok, data} = Enum.fetch(json_response(conn, 200)["data"], 0)
+    assert data["stats"]["employees"] == 2
   end
 
   test "get histogram stats", %{conn: conn} do
@@ -516,4 +517,3 @@ defmodule Report.Web.StatsControllerTest do
     insert(:division, location: %Geo.Point{coordinates: {30.1233, 50.32423}}, legal_entity: legal_entity)
   end
 end
-
